@@ -59,10 +59,10 @@ public class Product {
         this.category = category;
     }
 
-    public double getPreis() {
+    public Double getPreis() {
         return preis;
     }
-    public void setPreis(double preis) {
+    public void setPreis(Double preis) {
         this.preis = preis;
     }
 

@@ -33,37 +33,84 @@ public class DataLoader {
         };
     }
 
+    @SuppressWarnings("null")
     private void loadInitialData(ProductRepository repository, ReviewRepository reviewRepository) {
         Product lotusKaramell = new Product();
         lotusKaramell.setName("Lotus-Karamell");
-        lotusKaramell.setBeschreibung("...");
+        lotusKaramell.setBeschreibung("Ein zarter Biskuitboden kombiniert mit einer cremigen Lotus-Biscoff-Schicht.");
         lotusKaramell.setCategory(Category.KARAMELL);
         lotusKaramell.setPreis(39.90);
         lotusKaramell.setBildUrl("/assets/images/Kuchen_Lotus-caramell.png");
 
         Product schokoGanache = new Product();
         schokoGanache.setName("Schoko-Ganache");
-        schokoGanache.setBeschreibung("...");
+        schokoGanache.setBeschreibung(
+                "Intensiver Schokoladenkuchen mit zarter Zartbitter-Ganache und einem Hauch Espresso.");
         schokoGanache.setCategory(Category.SCHOKOLADIG);
-        schokoGanache.setPreis(39.90);
+        schokoGanache.setPreis(42.50);
         schokoGanache.setBildUrl("/assets/images/Kuchen_Schokolade.png");
 
         Product pistazienHimbeer = new Product();
         pistazienHimbeer.setName("Pistazien-Himbeer");
-        pistazienHimbeer.setBeschreibung("...");
+        pistazienHimbeer.setBeschreibung(
+                "Saftiger Pistazienboden kombiniert mit frischer Himbeercreme und leichter Mascarpone.");
         pistazienHimbeer.setCategory(Category.FRUCHTIG);
-        pistazienHimbeer.setPreis(39.90);
+        pistazienHimbeer.setPreis(44.90);
         pistazienHimbeer.setBildUrl("/assets/images/Kuchen_pistazien-Himbeer.png");
 
         Product beerenSahne = new Product();
         beerenSahne.setName("Beeren-Sahne");
-        beerenSahne.setBeschreibung("...");
+        beerenSahne.setBeschreibung("Locker gebackener Vanilleboden mit einer Mischung aus Waldbeeren und Sahnecreme.");
         beerenSahne.setCategory(Category.FRUCHTIG);
-        beerenSahne.setPreis(39.90);
+        beerenSahne.setPreis(37.90);
         beerenSahne.setBildUrl("/assets/images/Kuchen_beeren-Sahne.png");
 
-        repository.saveAll(Arrays.asList(lotusKaramell, schokoGanache, pistazienHimbeer, beerenSahne));
+        Product karamellCrunch = new Product();
+        karamellCrunch.setName("Karamell-Crunch");
+        karamellCrunch.setBeschreibung("Saftiger Karamellkuchen mit knusprigem Topping");
+        karamellCrunch.setCategory(Category.KARAMELL);
+        karamellCrunch.setPreis(45.00);
+        karamellCrunch.setBildUrl("/assets/images/Kuchen_karamell-crunch.png");
 
+        Product zitroneMohn = new Product();
+        zitroneMohn.setName("Zitrone-Mohn");
+        zitroneMohn.setBeschreibung("Frischer Zitronenkuchen mit feinem Mohnaroma");
+        zitroneMohn.setCategory(Category.FRUCHTIG);
+        zitroneMohn.setPreis(39.90);
+        zitroneMohn.setBildUrl("/assets/images/Kuchen_zitrone-mohn.png");
+
+        Product mangoCheesecake = new Product();
+        mangoCheesecake.setName("Mango-Cheesecake");
+        mangoCheesecake.setBeschreibung("Cremiger Frischkäsekuchen mit frischer Mangosauce");
+        mangoCheesecake.setCategory(Category.FRUCHTIG);
+        mangoCheesecake.setPreis(34.90);
+        mangoCheesecake.setBildUrl("/assets/images/Kuchen_mango-cheesecake.png");
+
+        Product schokoErdnuss = new Product();
+        schokoErdnuss.setName("Schoko-Erdnussbutter");
+        schokoErdnuss.setBeschreibung("Intensiver Schokokuchen mit salziger Erdnussbuttercreme");
+        schokoErdnuss.setCategory(Category.SCHOKOLADIG);
+        schokoErdnuss.setPreis(43.90);
+        schokoErdnuss.setBildUrl("/assets/images/Kuchen_schoko-erdnussbutter.png");
+
+        Product honigMandel = new Product();
+        honigMandel.setName("Honig-Mandel");
+        honigMandel.setBeschreibung("Feiner Honigteig mit karamellisierten Mandeln");
+        honigMandel.setCategory(Category.KARAMELL);
+        honigMandel.setPreis(34.90);
+        honigMandel.setBildUrl("/assets/images/Kuchen_honig-mandel.png");
+
+        // alle Produkte speichern
+        repository.saveAll(Arrays.asList(
+                lotusKaramell,
+                schokoGanache,
+                pistazienHimbeer,
+                beerenSahne,
+                karamellCrunch,
+                zitroneMohn,
+                mangoCheesecake,
+                schokoErdnuss,
+                honigMandel));
 
         // Add reviews
         Review r1a = new Review();
@@ -71,7 +118,7 @@ public class DataLoader {
         r1a.setText("wunderschöne Torte");
         r1a.setUserName("Anna");
         r1a.setProduct(lotusKaramell);
-        
+
         Review r1b = new Review();
         r1b.setStars(4);
         r1b.setText("Bin ziemlich zufrieden.");
