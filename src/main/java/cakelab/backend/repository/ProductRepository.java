@@ -12,5 +12,5 @@ import cakelab.backend.model.Product;
 public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByNameContainingIgnoreCase(String name);
     List<Product> findByCategory(Category category);
-    List<Product> findByNameContainingIgnoreCaseAndCategory(String name, Category category);
+   
 }
