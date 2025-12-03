@@ -65,7 +65,7 @@ public class DataLoader {
         karamellCrunch.setCategory(Category.KARAMELL);
          
         karamellCrunch.setName("Karamell-Crunch"); 
-        karamellCrunch.beschreibung( "Saftiger Karamellkuchen mit knusprigem Topping"); 
+        karamellCrunch.setBeschreibung( "Saftiger Karamellkuchen mit knusprigem Topping"); 
         karamellCrunch.setPreis( 45.00); 
         karamellCrunch.setCategory(Category.KARAMELL);
         karamellCrunch.setBildUrl("/src/assets/images/Kuchen_karamell-crunch.png"); 
