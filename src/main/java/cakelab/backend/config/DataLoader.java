@@ -36,33 +36,70 @@ public class DataLoader {
     private void loadInitialData(ProductRepository repository, ReviewRepository reviewRepository) {
         Product lotusKaramell = new Product();
         lotusKaramell.setName("Lotus-Karamell");
-        lotusKaramell.setBeschreibung("...");
+        lotusKaramell.setBeschreibung("Ein zarter Biskuitboden kombiniert mit einer cremigen Lotus-Biscoff-Schicht.");
         lotusKaramell.setCategory(Category.KARAMELL);
         lotusKaramell.setPreis(39.90);
         lotusKaramell.setBildUrl("/assets/images/Kuchen_Lotus-caramell.png");
 
         Product schokoGanache = new Product();
         schokoGanache.setName("Schoko-Ganache");
-        schokoGanache.setBeschreibung("...");
+        schokoGanache.setBeschreibung("Intensiver Schokoladenkuchen mit zarter Zartbitter-Ganache und einem Hauch Espresso");
         schokoGanache.setCategory(Category.SCHOKOLADIG);
         schokoGanache.setPreis(39.90);
         schokoGanache.setBildUrl("/assets/images/Kuchen_Schokolade.png");
 
         Product pistazienHimbeer = new Product();
         pistazienHimbeer.setName("Pistazien-Himbeer");
-        pistazienHimbeer.setBeschreibung("...");
+        pistazienHimbeer.setBeschreibung("Saftiger Pistazienboden kombiniert mit frischer Himbeercreme und leichter Mascarpone.");
         pistazienHimbeer.setCategory(Category.FRUCHTIG);
         pistazienHimbeer.setPreis(39.90);
         pistazienHimbeer.setBildUrl("/assets/images/Kuchen_pistazien-Himbeer.png");
 
         Product beerenSahne = new Product();
         beerenSahne.setName("Beeren-Sahne");
-        beerenSahne.setBeschreibung("...");
+        beerenSahne.setBeschreibung("Locker gebackener Vanilleboden mit einer Mischung aus Waldbeeren und Sahnecreme");
         beerenSahne.setCategory(Category.FRUCHTIG);
         beerenSahne.setPreis(39.90);
         beerenSahne.setBildUrl("/assets/images/Kuchen_beeren-Sahne.png");
+        Product karamellCrunch= new Product(); 
+        karamellCrunch.setCategory(Category.KARAMELL);
+         
+        karamellCrunch.setName("Karamell-Crunch"); 
+        karamellCrunch.beschreibung( "Saftiger Karamellkuchen mit knusprigem Topping"); 
+        karamellCrunch.setPreis( 45.00); 
+        karamellCrunch.setCategory(Category.KARAMELL);
+        karamellCrunch.setBildUrl("/src/assets/images/Kuchen_karamell-crunch.png"); 
+        Product zitronMohn= new Product(); 
+        zitronMohn.setName("Zitrone-Mohn");
+        zitronMohn.setBeschreibung("Frischer Zitronenkuchen mit feinem Mohnaroma"); 
+        zitronMohn.setBildUrl("/src/assets/images/Kuchen_zitrone-mohn.png");
+        zitronMohn.setCategory(Category.SONSTIGES);
+zitronMohn.setPreis(39.90);
 
-        repository.saveAll(Arrays.asList(lotusKaramell, schokoGanache, pistazienHimbeer, beerenSahne));
+
+Product mangoCheesecake= new Product();
+        mangoCheesecake.setName("Mango-Cheesecake");
+        mangoCheesecake.setBeschreibung("Cremiger Frischkäsekuchen mit frischer Mangosauce"); 
+        mangoCheesecake.setPreis(34.90);
+        mangoCheesecake.setBildUrl("/src/assets/images/Kuchen_mango-cheesecake.png"); 
+   mangoCheesecake.setCategory(Category.FRUCHTIG);
+        Product schokoErdnuss=new Product();
+        schokoErdnuss.setName("Schoko-Erdnussbutter");
+        schokoErdnuss.setBeschreibung("Intensiver Schokokuchen mit salziger Erdnussbuttercreme");
+        schokoErdnuss.setPreis(43.90);
+
+    schokoErdnuss.setCategory(Category.SCHOKOLADIG);
+    schokoErdnuss.setBildUrl("/src/assets/images/Kuchen_schoko-erdnussbutter.png");
+    Product honigMandel= new Product(); 
+    honigMandel.setName("Honig-Mandel");
+    honigMandel.setCategory(Category.SONSTIGES);
+        honigMandel.setBeschreibung("Feiner Honigteig mit karamellisierten Mandeln");
+        honigMandel.setPreis(34.90);
+        honigMandel.setBildUrl("/src/assets/images/Kuchen_honig-mandel.png");
+
+
+
+        repository.saveAll(Arrays.asList(lotusKaramell, schokoGanache, pistazienHimbeer, beerenSahne, honigMandel,karamellCrunch, zitronMohn,mangoCheesecake,schokoErdnuss));
 
 
         // Add reviews
