@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import cakelab.backend.model.Category;
 import cakelab.backend.model.Product;
 import cakelab.backend.repository.ProductRepository;
 
@@ -23,8 +24,17 @@ public class ProductController {
     private ProductRepository productRepository;
 
     @GetMapping
-    public List<Product> getProducts() {
-        return productRepository.findAll();
+    public List<Product> getProducts(@RequestParam(required = false) String name, 
+        @RequestParam(required = false) Category category) {
+        if (name != null && category != null) {
+            return productRepository.findByNameContainingIgnoreCaseAndCategory(name, category);
+        } else if (name != null) {
+            return productRepository.findByNameContainingIgnoreCase(name);
+        } else if (category != null) {
+            return productRepository.findByCategory(category);
+        } else {
+            return productRepository.findAll();
+        }
     }
     
     @PostMapping
@@ -45,7 +55,7 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         }
         Product product = opt.get();
-        //product.setCategory(productDetails.getCategory());
+        product.setCategory(productDetails.getCategory());
         product.setBeschreibung(productDetails.getBeschreibung());
         product.setBildUrl(productDetails.getBildUrl());
         product.setPreis(productDetails.getPreis());

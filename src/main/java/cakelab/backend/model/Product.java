@@ -21,6 +21,7 @@ public class Product {
     private Long id;
     private String name;
     private String beschreibung;
+    private Category category;
     private Double preis;
     private String bildUrl;
 
@@ -49,6 +50,13 @@ public class Product {
     }
     public void setBeschreibung(String beschreibung) {
         this.beschreibung = beschreibung;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public double getPreis() {
@@ -104,6 +112,7 @@ public class Product {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", beschreibung='" + beschreibung + '\'' +
+                ", category=" + category +
                 ", preis=" + preis +
                 ", bildUrl='" + bildUrl + '\'' +
                 '}';

@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-//import cakelab.backend.model.Category;
+import cakelab.backend.model.Category;
 import cakelab.backend.model.Product;
 import cakelab.backend.model.Review;
 import cakelab.backend.repository.ProductRepository;
@@ -35,30 +35,30 @@ public class DataLoader {
 
     private void loadInitialData(ProductRepository repository, ReviewRepository reviewRepository) {
         Product lotusKaramell = new Product();
-        //lotusKaramell.setId(1);
         lotusKaramell.setName("Lotus-Karamell");
         lotusKaramell.setBeschreibung("...");
+        lotusKaramell.setCategory(Category.KARAMELL);
         lotusKaramell.setPreis(39.90);
         lotusKaramell.setBildUrl("/assets/images/Kuchen_Lotus-caramell.png");
 
         Product schokoGanache = new Product();
-        //schokoGanache.setId(2);
         schokoGanache.setName("Schoko-Ganache");
         schokoGanache.setBeschreibung("...");
+        schokoGanache.setCategory(Category.SCHOKOLADIG);
         schokoGanache.setPreis(39.90);
         schokoGanache.setBildUrl("/assets/images/Kuchen_Schokolade.png");
 
         Product pistazienHimbeer = new Product();
-        //pistazienHimbeer.setId(3);
         pistazienHimbeer.setName("Pistazien-Himbeer");
         pistazienHimbeer.setBeschreibung("...");
+        pistazienHimbeer.setCategory(Category.FRUCHTIG);
         pistazienHimbeer.setPreis(39.90);
         pistazienHimbeer.setBildUrl("/assets/images/Kuchen_pistazien-Himbeer.png");
 
         Product beerenSahne = new Product();
-        //beerenSahne.setId(4);
         beerenSahne.setName("Beeren-Sahne");
         beerenSahne.setBeschreibung("...");
+        beerenSahne.setCategory(Category.FRUCHTIG);
         beerenSahne.setPreis(39.90);
         beerenSahne.setBildUrl("/assets/images/Kuchen_beeren-Sahne.png");
 
