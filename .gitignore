@@ -4,8 +4,9 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+
 ### files with credentials or other sensitive data ###
-application.properties
+application-prod.properties
 
 ### STS ###
 .apt_generated
@@ -34,6 +35,3 @@ build/
 
 ### VS Code ###
 .vscode/
-
-### Mac ###
-.DS_Store

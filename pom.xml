@@ -8,11 +8,11 @@
 		<version>3.5.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>de.htwg.in.schneider.saitenweise</groupId>
-	<artifactId>saitenweise-backend</artifactId>
+	<groupId>cakelab.backend</groupId>
+	<artifactId>backend-cakelab</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>saitenweise-backend</name>
-	<description>Backend for Saitenweise Shop</description>
+	<name>backend-cakelab</name>
+	<description>Backend for cakelab Shop</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -38,12 +38,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-				<dependency>
+		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
@@ -64,4 +65,5 @@
 			</plugin>
 		</plugins>
 	</build>
+
 </project>
