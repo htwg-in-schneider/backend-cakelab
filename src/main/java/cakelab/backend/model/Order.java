@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "orders") // "order" ist ein SQL-Keyword → orders ist richtig
+@Table(name = "orders") 
 public class Order {
 
     @Id
@@ -17,7 +17,7 @@ public class Order {
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "order_id") // wichtig für richtige Zuordnung
+    @JoinColumn(name = "order_id") 
     private List<OrderItem> items;
 
     // ---- GETTER & SETTER ----

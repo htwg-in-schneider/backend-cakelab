@@ -10,7 +10,6 @@ public class Customization {
     private String fontColor;
     private String text;
 
-    // ---- GETTER & SETTER ----
 
     public String getSize() {
         return size;
