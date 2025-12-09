@@ -1,14 +1,25 @@
 package cakelab.backend.controller;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.Optional;
 import cakelab.backend.model.Category;
 import cakelab.backend.model.Product;
+import cakelab.backend.model.User;
+import cakelab.backend.model.Role;
 import cakelab.backend.repository.ProductRepository;
+import cakelab.backend.repository.UserRepository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -22,6 +33,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -32,7 +44,7 @@ import java.util.Optional;
  * Testet sowohl die REST-Endpunkte als auch die Speicherung in der Datenbank.
  */
 @SpringBootTest
-@Profile("test")
+@ActiveProfiles("test")
 public class ProductControllerTest {
 
     private MockMvc mockMvc;
@@ -40,13 +52,26 @@ public class ProductControllerTest {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+
     /**
      * Initialisiert MockMvc und leert die Datenbank vor jedem Test.
      */
     @BeforeEach
     public void setUp(WebApplicationContext webApplicationContext) {
+          
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
+         .apply(springSecurity())
                 .build();
+                  userRepository.deleteAll();
+        User workerUser = new User();
+        
+        workerUser.setEmail("admin@example.com");
+        workerUser.setOauthId("auth0|admin");
+        workerUser.setRole(Role.MITARBEITER);
+        userRepository.save(workerUser);
         productRepository.deleteAll();
     }
 
@@ -194,6 +219,7 @@ public class ProductControllerTest {
 
         // WHEN: Produkt nach ID abgerufen
         mockMvc.perform(get("/api/product/" + product.getId()))
+        
                 .andDo(MockMvcResultHandlers.print())
                 // THEN: Status OK, Produktdetails korrekt
                 .andExpect(status().isOk())
@@ -216,6 +242,7 @@ public class ProductControllerTest {
                 + "\"category\":\"FRUCHTIG\",\"preis\":39.90,\"bildUrl\":\"/assets/images/Kuchen_Lotus-caramell.png\"}";
 
         MvcResult mvcResult = mockMvc.perform(post("/api/product")
+        .with(jwt().jwt(jwt -> jwt.claim("sub", "auth0|admin"))) // simulate admin user
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(productPayload))
                 // THEN: Status OK, Produktdetails korrekt
@@ -261,6 +288,7 @@ public class ProductControllerTest {
         String updatePayload = "{\"name\":\"Lotus-Karamell\",\"beschreibung\":\"...\","
                 + "\"category\":\"KARAMELL\",\"preis\":39.90,\"bildUrl\":\"/assets/images/Kuchen_Lotus-caramell.png\"}";
         mockMvc.perform(put("/api/product/" + id)
+         .with(jwt().jwt(jwt -> jwt.claim("sub", "auth0|admin"))) // simulate admin user
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(updatePayload))
                 // THEN: Status OK, Produktdetails korrekt
@@ -296,7 +324,8 @@ public class ProductControllerTest {
         product = productRepository.save(product);
 
         // WHEN: Produkt gelöscht
-        mockMvc.perform(delete("/api/product/" + product.getId()))
+         mockMvc.perform(delete("/api/product/" + product.getId())
+                .with(jwt().jwt(jwt -> jwt.claim("sub", "auth0|admin")))) // simulate admin user
                 // THEN: Status No Content
                 .andExpect(status().isNoContent());
 
