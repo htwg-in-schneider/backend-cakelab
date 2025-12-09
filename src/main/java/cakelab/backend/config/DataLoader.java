@@ -8,11 +8,14 @@ import org.springframework.context.annotation.Profile;
 import cakelab.backend.model.Category;
 import cakelab.backend.model.Product;
 import cakelab.backend.model.Review;
+import cakelab.backend.model.User;
+import cakelab.backend.model.Role;
 import cakelab.backend.repository.ProductRepository;
 import cakelab.backend.repository.ReviewRepository;
-
+import cakelab.backend.repository.UserRepository;
 import java.util.Arrays;
 import org.slf4j.Logger;
+import java.util.Optional;
 import org.slf4j.LoggerFactory;
 
 @Configuration
@@ -22,18 +25,46 @@ public class DataLoader {
     private static final Logger LOGGER = LoggerFactory.getLogger(DataLoader.class);
 
     @Bean
-    public CommandLineRunner loadData(ProductRepository repository, ReviewRepository reviewRepository) {
+    public CommandLineRunner loadData(UserRepository userRepository,ProductRepository productRepository, ReviewRepository reviewRepository) {
         return args -> {
-            if (repository.count() == 0) { // Check if the repository is empty
+            loadInitialUsers(userRepository);
+
+            // only load products and reviews if none exist
+            if (productRepository.count() == 0) { // Check if the repository is empty
                 LOGGER.info("Database is empty. Loading initial data...");
-                loadInitialData(repository, reviewRepository);
+                loadInitialData(productRepository, reviewRepository);
             } else {
                 LOGGER.info("Database already contains data. Skipping data loading.");
             }
         };
     }
+ private void loadInitialUsers(UserRepository userRepository) {
+        upsertUser(userRepository, "max.mustermann@gmail.com", "auth0|69248a03c95661c67b55fe61", Role.NUTZER);
+        upsertUser(userRepository,  "max.zimmer_mitarbeiter@gmail.com", "auth0|6925d3052f196223d506f863", Role.MITARBEITER);
+    }
 
-    private void loadInitialData(ProductRepository repository, ReviewRepository reviewRepository) {
+
+    private void upsertUser(UserRepository userRepository,  String email, String oauthId, Role role) {
+        Optional<User> existing = userRepository.findByEmail(email);
+        if (existing.isPresent()) {
+            User e = existing.get();
+            
+            e.setOauthId(oauthId);
+            e.setRole(role);
+            userRepository.save(e);
+            LOGGER.info("Updated existing {} user with email={}", role, email);
+        } else {
+            User u = new User();
+           
+            u.setEmail(email);
+            u.setOauthId(oauthId);
+            u.setRole(role);
+            userRepository.save(u);
+            LOGGER.info("Created new {} user with email={}", role, email);
+        }
+    }
+
+    private void loadInitialData(ProductRepository productRepository, ReviewRepository reviewRepository) {
         Product lotusKaramell = new Product();
         lotusKaramell.setName("Lotus-Karamell");
         lotusKaramell.setBeschreibung("Ein zarter Biskuitboden kombiniert mit einer cremigen Lotus-Biscoff-Schicht.");
@@ -99,7 +130,7 @@ Product mangoCheesecake= new Product();
 
 
 
-        repository.saveAll(Arrays.asList(lotusKaramell, schokoGanache, pistazienHimbeer, beerenSahne, honigMandel,karamellCrunch, zitronMohn,mangoCheesecake,schokoErdnuss));
+        productRepository.saveAll(Arrays.asList(lotusKaramell, schokoGanache, pistazienHimbeer, beerenSahne, honigMandel,karamellCrunch, zitronMohn,mangoCheesecake,schokoErdnuss));
 
 
         // Add reviews

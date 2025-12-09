@@ -55,12 +55,18 @@
 			<version>3.1.4</version>
 			<scope>runtime</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.okta.spring</groupId>
-			<artifactId>okta-spring-boot-starter</artifactId>
-			<version>3.0.5</version>
-		</dependency>
-	</dependencies>
+		 <dependency>
+        <groupId>com.okta.spring</groupId>
+        <artifactId>okta-spring-boot-starter</artifactId>
+        <version>3.0.5</version>
+    </dependency>
+	<dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-test</artifactId>
+    <version>6.1.1</version> <!-- passt zu Spring Boot 3.5.5 -->
+    <scope>test</scope>
+</dependency>
+		</dependencies>
 
 	<build>
 		<plugins>
