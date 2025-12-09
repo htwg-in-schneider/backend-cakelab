@@ -45,7 +45,7 @@ public class ProductController {
             return false;
         }
         Optional<User> user = userRepository.findByOauthId(jwt.getSubject());
-        if (!user.isPresent() || user.get().getRole() != Role.ADMIN) {
+        if (!user.isPresent() || user.get().getRole() != Role.MITARBEITER) {
             LOG.warn("Unauthorized access by " + user.map(u -> "user with oauthId " + u.getOauthId())
                     .orElse("unknown user"));
             return false;
