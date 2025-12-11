@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "orders") 
+@Table(name = "orders")
 public class Order {
 
     @Id
@@ -13,11 +13,12 @@ public class Order {
     private Long id;
 
     private Double total;
+    private String status = "offen";
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "order_id") 
+    @JoinColumn(name = "order_id")
     private List<OrderItem> items;
 
     // ---- GETTER & SETTER ----
@@ -52,5 +53,13 @@ public class Order {
 
     public void setItems(List<OrderItem> items) {
         this.items = items;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
