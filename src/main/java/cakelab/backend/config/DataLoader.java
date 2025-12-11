@@ -40,7 +40,7 @@ public class DataLoader {
     }
  private void loadInitialUsers(UserRepository userRepository) {
         upsertUser(userRepository, "maxmuster+gast@gmail.com", "auth0|693b0fec3ead746953ac29a1", Role.GAST);
-        upsertUser(userRepository,  "auth0|693b0fd10aca7b7f6a0e9bb3", "auth0|6925d3052f196223d506f863", Role.KUNDE);
+        upsertUser(userRepository,  "maxmuster+kunde@gmail.com", "auth0|693b0fd10aca7b7f6a0e9bb3", Role.KUNDE);
         upsertUser(userRepository,"maxmuster+admin@gmail.com", "auth0|693b0fa43ead746953ac297a",Role.ADMIN);
     }
 
