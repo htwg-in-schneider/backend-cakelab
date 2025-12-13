@@ -1,8 +1,11 @@
 package cakelab.backend.model;
 
+import jakarta.validation.constraints.*;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+
+
 
 @Entity
 @Table(name = "orders")
@@ -12,11 +15,16 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @Positive
     private Double total;
+
+    @NotBlank
     private String status = "offen";
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    @NotEmpty
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "order_id")
     private List<OrderItem> items;

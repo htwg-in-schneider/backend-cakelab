@@ -2,6 +2,8 @@ package cakelab.backend.controller;
 
 import cakelab.backend.model.Order;
 import cakelab.backend.repository.OrderRepository;
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +24,7 @@ public class OrderController {
     private OrderRepository orderRepo;
 
     @PostMapping
-    public Order createOrder(@RequestBody Order order) {
+    public Order createOrder(@Valid @RequestBody Order order) {
         return orderRepo.save(order);
     }
 

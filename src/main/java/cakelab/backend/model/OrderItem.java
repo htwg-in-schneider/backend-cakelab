@@ -1,6 +1,9 @@
 package cakelab.backend.model;
 
+import jakarta.validation.constraints.*;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 @Table(name = "order_item")
@@ -10,9 +13,18 @@ public class OrderItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private Long productId;
+
+    @NotBlank
     private String name;
+
+    @NotNull
+    @Positive
     private Double price;
+
+    @NotNull
+    @Min(1)
     private Integer quantity;
 
     @Embedded
