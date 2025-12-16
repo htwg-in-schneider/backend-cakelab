@@ -3,12 +3,27 @@ package cakelab.backend.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import org.springframework.web.bind.annotation.*;
 
 import cakelab.backend.model.Category;
 import cakelab.backend.model.Product;
+import cakelab.backend.model.User;
+import cakelab.backend.model.Role;
 import cakelab.backend.repository.ProductRepository;
-
+import cakelab.backend.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -19,10 +34,24 @@ import java.util.Optional;
 public class ProductController {
 
     private static final Logger LOG = LoggerFactory.getLogger(ProductController.class);
+ @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private ProductRepository productRepository;
-
+ private boolean userFromJwtIsAdmin(Jwt jwt) {
+        if (jwt == null || jwt.getSubject() == null) {
+            LOG.warn("JWT or subject is null");
+            return false;
+        }
+        Optional<User> user = userRepository.findByOauthId(jwt.getSubject());
+        if (!user.isPresent() || user.get().getRole() != Role.MITARBEITER) {
+            LOG.warn("Unauthorized access by " + user.map(u -> "user with oauthId " + u.getOauthId())
+                    .orElse("unknown user"));
+            return false;
+        }
+        return true;
+    }
     @GetMapping
     public List<Product> getProducts(@RequestParam(required = false) String name, 
         @RequestParam(required = false) Category category) {
@@ -38,18 +67,26 @@ public class ProductController {
     }
     
     @PostMapping
-    public Product createProduct(@RequestBody Product product) {
+   public ResponseEntity<Product> createProduct(@AuthenticationPrincipal Jwt jwt, @RequestBody Product product) {
+        if (!userFromJwtIsAdmin(jwt)) {
+            return ResponseEntity.status(403).build();
+        }
+
         if (product.getId() != null) {
             product.setId(null);
             LOG.warn("Attempted to create a product with an existing ID. ID has been set to null to create a new product.");
         }
         Product newProduct = productRepository.save(product);
         LOG.info("Created new product with id " + newProduct.getId());
-        return newProduct;
+        return ResponseEntity.ok(newProduct);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product productDetails) {
+    public ResponseEntity<Product> updateProduct(@AuthenticationPrincipal Jwt jwt, 
+        @PathVariable Long id, @RequestBody Product productDetails) {
+        if (!userFromJwtIsAdmin(jwt)) {
+            return ResponseEntity.status(403).build();
+        }
         Optional<Product> opt = productRepository.findById(id);
         if (!opt.isPresent()) {
             return ResponseEntity.notFound().build();
@@ -66,7 +103,11 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteProduct(@PathVariable Long id) {
+    public ResponseEntity<Object> deleteProduct(@AuthenticationPrincipal Jwt jwt,@PathVariable Long id) {
+        if (!userFromJwtIsAdmin(jwt)) {
+            return ResponseEntity.status(403).build();
+        }
+
         Optional<Product> opt = productRepository.findById(id);
         if (!opt.isPresent()) {
             return ResponseEntity.notFound().build();

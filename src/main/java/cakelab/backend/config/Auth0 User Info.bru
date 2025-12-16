@@ -1,0 +1,20 @@
+meta {
+  name: Auth0 User Info
+  type: http
+  seq: 10
+}
+
+get {
+  url: dev-hzm4ahoo1e6voenn.us.auth0.com/userinfo
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: put valid token here
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
