@@ -70,7 +70,7 @@ public class ProductControllerTest {
         
         workerUser.setEmail("admin@example.com");
         workerUser.setOauthId("auth0|admin");
-        workerUser.setRole(Role.MITARBEITER);
+        workerUser.setRole(Role.ADMIN);
         userRepository.save(workerUser);
         productRepository.deleteAll();
     }

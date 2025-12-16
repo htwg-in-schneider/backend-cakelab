@@ -24,7 +24,6 @@ import cakelab.backend.model.User;
 import cakelab.backend.model.Role;
 import cakelab.backend.repository.ProductRepository;
 import cakelab.backend.repository.UserRepository;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -45,7 +44,7 @@ public class ProductController {
             return false;
         }
         Optional<User> user = userRepository.findByOauthId(jwt.getSubject());
-        if (!user.isPresent() || user.get().getRole() != Role.MITARBEITER) {
+        if (!user.isPresent() || user.get().getRole() != Role.ADMIN) {
             LOG.warn("Unauthorized access by " + user.map(u -> "user with oauthId " + u.getOauthId())
                     .orElse("unknown user"));
             return false;
