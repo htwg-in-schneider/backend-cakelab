@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Product {
+public class Cake {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -26,7 +26,7 @@ public class Product {
     private String bildUrl;
 
     
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "cake", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Review> reviews;
 
@@ -84,21 +84,20 @@ public class Product {
 
     public void addReview(Review review) {
         this.reviews.add(review);
-        review.setProduct(this);
+        review.setCake(this);
     }
 
     public void removeReview(Review review) {
         this.reviews.remove(review);
-        review.setProduct(null);
+        review.setCake(null);
     }
-
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Product product = (Product) o;
-        return id != null && id.equals(product.id);
+        Cake cake = (Cake) o;
+        return id != null && id.equals(cake.id);
     }
 
     @Override
@@ -108,7 +107,7 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product{" +
+        return "cake{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", beschreibung='" + beschreibung + '\'' +

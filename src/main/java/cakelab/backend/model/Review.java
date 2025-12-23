@@ -16,8 +16,8 @@ public class Review {
     private String userName;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @JoinColumn(name = "cake_id")
+    private Cake cake;
 
     // Getters and setters
     public Long getId() {
@@ -52,11 +52,11 @@ public class Review {
         this.userName = userName;
     }
 
-    public Product getProduct() {
-        return product;
+    public Cake getCake() {
+        return cake;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setCake(Cake cake) {
+        this.cake = cake;
     }
 }

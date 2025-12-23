@@ -14,7 +14,7 @@ public class OrderItem {
     private Long id;
 
     @NotNull
-    private Long productId;
+    private Long cakeId;
 
     @NotBlank
     private String name;
@@ -40,12 +40,12 @@ public class OrderItem {
         this.id = id;
     }
 
-    public Long getProductId() {
-        return productId;
+    public Long getCakeId() {
+        return cakeId;
     }
 
-    public void setProductId(Long productId) {
-        this.productId = productId;
+    public void setCakeId(Long cakeId) {
+        this.cakeId = cakeId;
     }
 
     public String getName() {

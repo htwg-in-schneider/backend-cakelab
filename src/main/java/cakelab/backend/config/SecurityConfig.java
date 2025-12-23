@@ -21,10 +21,10 @@ public class SecurityConfig {
                 .cors(withDefaults())
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/api/profile").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/api/product", "/api/product/*").authenticated()
-                        .requestMatchers(HttpMethod.PUT, "/api/product/*").authenticated()
-                        .requestMatchers(HttpMethod.DELETE, "/api/product/*").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/api/product", "/api/product/*").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/cake", "/api/cake/*").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/api/cake/*").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/api/cake/*").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/cake", "/api/cake/*").permitAll()
                         .requestMatchers("/api/**").permitAll())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(withDefaults()))
