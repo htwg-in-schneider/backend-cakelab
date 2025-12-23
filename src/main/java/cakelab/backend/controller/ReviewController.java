@@ -44,8 +44,8 @@ public class ReviewController {
     @PostMapping
     public ResponseEntity<Review> createReview(@RequestBody Review review) {
         Long cakeId = null;
-        if (review != null && review.getCakes() != null) {
-            cakeId = review.getCakes().getId();
+        if (review != null && review.getCake() != null) {
+            cakeId = review.getCake().getId();
         }
         LOG.info("Attempting to create review for cake id {}", cakeId);
 
@@ -60,14 +60,14 @@ public class ReviewController {
             return ResponseEntity.badRequest().build();
         }
 
-        if (review.getCakes() == null || review.getCakes().getId() == null) {
+        if (review.getCake() == null || review.getCake().getId() == null) {
             LOG.warn("Review cake is null or has no id");
             return ResponseEntity.badRequest().build();
         }
 
-        Cake cake = cakeRepository.findById(review.getCakes().getId()).orElse(null);
+        Cake cake = cakeRepository.findById(review.getCake().getId()).orElse(null);
         if (cake == null) {
-            LOG.warn("cake not found for review: {}", review.getCakes().getId());
+            LOG.warn("cake not found for review: {}", review.getCake().getId());
             return ResponseEntity.badRequest().build();
         }
 
