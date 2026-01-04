@@ -10,6 +10,7 @@ public class User {
     private Long id;
     private String email;
     private String oauthId;
+    private String name;
 
     @Enumerated(EnumType.STRING) // <-- Use JPA enum mapping
     private Role role;
@@ -45,5 +46,11 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
     }
 }

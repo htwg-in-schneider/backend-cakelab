@@ -41,12 +41,12 @@ public class DataLoader {
     }
  private void loadInitialUsers(UserRepository userRepository) {
 
-        upsertUser(userRepository,  "maxmuster+kunde@gmail.com", "auth0|693b0fd10aca7b7f6a0e9bb3", Role.KUNDE);
-        upsertUser(userRepository,"maxmuster+admin@gmail.com", "auth0|693b0fa43ead746953ac297a",Role.ADMIN);
+        upsertUser(userRepository, "Max Mustermann", "maxmuster+kunde@gmail.com", "auth0|693b0fd10aca7b7f6a0e9bb3", Role.KUNDE);
+        upsertUser(userRepository,"Maximilian Mustermann", "maxmuster+admin@gmail.com", "auth0|693b0fa43ead746953ac297a",Role.ADMIN);
     }
 
 
-    private void upsertUser(UserRepository userRepository,  String email, String oauthId, Role role) {
+    private void upsertUser(UserRepository userRepository,  String Name, String email, String oauthId, Role role) {
         Optional<User> existing = userRepository.findByEmail(email);
         if (existing.isPresent()) {
             User e = existing.get();
