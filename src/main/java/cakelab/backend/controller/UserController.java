@@ -25,7 +25,8 @@ public class UserController {
     public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
- private boolean userFromJwtIsAdmin(Jwt jwt) {
+
+    private boolean userFromJwtIsAdmin(Jwt jwt) {
         if (jwt == null || jwt.getSubject() == null) {
             LOG.warn("JWT or subject is null");
             return false;
@@ -51,9 +52,10 @@ public class UserController {
 
         return userRepository.findAll();
     }
-        @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@AuthenticationPrincipal Jwt jwt, 
-        @PathVariable Long id, @RequestBody User userDetails) {
+
+    @PutMapping("/{id}")
+    public ResponseEntity<User> updateUser(@AuthenticationPrincipal Jwt jwt,
+            @PathVariable Long id, @RequestBody User userDetails) {
         if (!userFromJwtIsAdmin(jwt)) {
             return ResponseEntity.status(403).build();
         }
@@ -62,17 +64,17 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
         User user = opt.get();
-        user.setId(id); 
-       user.setOauthId(userDetails.getOauthId());
+        user.setId(id);
+        user.setOauthId(userDetails.getOauthId());
         user.setEmail(userDetails.getEmail());
-user.setRole(userDetails.getRole());
+        user.setRole(userDetails.getRole());
         User updateduser = userRepository.save(user);
         LOG.info("Updated user with id " + updateduser.getOauthId());
         return ResponseEntity.ok(updateduser);
     }
-      @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteCake(@AuthenticationPrincipal Jwt jwt,@PathVariable Long id)
-     {
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteUser(@AuthenticationPrincipal Jwt jwt, @PathVariable Long id) {
         if (!userFromJwtIsAdmin(jwt)) {
             return ResponseEntity.status(403).build();
         }
@@ -85,9 +87,8 @@ user.setRole(userDetails.getRole());
         LOG.info("Deleted user with id " + id);
         return ResponseEntity.noContent().build();
     }
-    
 
-      @GetMapping("/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         Optional<User> opt = userRepository.findById(id);
         if (opt.isPresent()) {

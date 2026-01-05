@@ -53,11 +53,13 @@ public class DataLoader {
             
             e.setOauthId(oauthId);
             e.setRole(role);
+            e.setName(Name);
+            e.setEmail(email);
             userRepository.save(e);
             LOGGER.info("Updated existing {} user with email={}", role, email);
         } else {
             User u = new User();
-           
+           u.setName(Name); 
             u.setEmail(email);
             u.setOauthId(oauthId);
             u.setRole(role);

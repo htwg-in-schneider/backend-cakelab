@@ -1,5 +1,10 @@
 package cakelab.backend.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -14,6 +19,10 @@ public class User {
 
     @Enumerated(EnumType.STRING) // <-- Use JPA enum mapping
     private Role role;
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<Order> orders = new ArrayList<>();
 
     // Getters and setters
     public Long getId() {
@@ -32,10 +41,10 @@ public class User {
         this.email = email;
     }
 
- 
     public String getOauthId() {
         return oauthId;
     }
+
     public void setOauthId(String oauthId) {
         this.oauthId = oauthId;
     }
@@ -47,10 +56,21 @@ public class User {
     public void setRole(Role role) {
         this.role = role;
     }
+
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+
     }
 }

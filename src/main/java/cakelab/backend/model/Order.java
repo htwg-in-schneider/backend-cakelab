@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-
-
 @Entity
 @Table(name = "orders")
 public class Order {
@@ -23,7 +21,9 @@ public class Order {
     private String status = "offen";
 
     private LocalDateTime createdAt = LocalDateTime.now();
-
+     @ManyToOne(optional = false)
+    @JoinColumn(name = "user_id")
+    User user; 
     @NotEmpty
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "order_id")
@@ -69,5 +69,15 @@ public class Order {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+ 
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
