@@ -5,9 +5,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
 import cakelab.backend.model.Review;
+import cakelab.backend.dto.ReviewResponseDto;
 import cakelab.backend.model.Cake;
 import cakelab.backend.repository.ReviewRepository;
 import cakelab.backend.repository.CakeRepository;
+import cakelab.backend.dto.ReviewResponseDto;
 
 import java.util.List;
 import org.slf4j.Logger;
@@ -33,13 +35,18 @@ public class ReviewController {
         return reviews;
     }
 
-    @GetMapping("/cake/{cakeId}")
-    public List<Review> getReviewsBycake(@PathVariable Long cakeId) {
-        LOG.info("Fetching reviews for cake id {}", cakeId);
-        List<Review> reviews = reviewRepository.findByCakeId(cakeId);
-        LOG.info("Found {} reviews for cake {}", reviews != null ? reviews.size() : 0, cakeId);
-        return reviews;
-    }
+@GetMapping("/cake/{cakeId}")
+public List<ReviewResponseDto> getReviewsByCake(@PathVariable Long cakeId) {
+    return reviewRepository.findByCakeId(cakeId)
+        .stream()
+        .map(r -> new ReviewResponseDto(
+            r.getId(),
+            r.getStars(),
+            r.getText(),
+            r.getUser() != null ? r.getUser().getName() : "Anonym"
+        ))
+        .toList();
+}
 
     @PostMapping
     public ResponseEntity<Review> createReview(@RequestBody Review review) {

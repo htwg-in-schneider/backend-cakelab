@@ -2,8 +2,6 @@ package cakelab.backend.model;
 
 import jakarta.validation.constraints.*;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Positive;
 
 @Entity
 @Table(name = "order_item")
@@ -13,8 +11,11 @@ public class OrderItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    private Long cakeId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "cake_id")
+    private Cake cake;
+
+  
 
     @NotBlank
     private String name;
@@ -40,12 +41,12 @@ public class OrderItem {
         this.id = id;
     }
 
-    public Long getCakeId() {
-        return cakeId;
+    public Cake getCake() {
+        return cake;
     }
 
-    public void setCakeId(Long cakeId) {
-        this.cakeId = cakeId;
+    public void setCake(Cake cake) {
+        this.cake = cake;
     }
 
     public String getName() {
