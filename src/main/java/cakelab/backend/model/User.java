@@ -6,6 +6,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "app_user") // <-- Rename table to avoid reserved keyword
@@ -13,8 +14,11 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotNull
     private String email;
+    @NotNull
     private String oauthId;
+    @NotNull
     private String name;
 
     @Enumerated(EnumType.STRING) // <-- Use JPA enum mapping

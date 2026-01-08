@@ -3,6 +3,7 @@ package cakelab.backend.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
@@ -10,8 +11,9 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
+    @NotNull
     private int stars; // 1 to 5
+    @NotNull
     private String text;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")

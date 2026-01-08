@@ -10,6 +10,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
@@ -24,10 +25,14 @@ public class Cake {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotNull
     private String name;
     private String beschreibung;
+      @NotNull
     private Category category;
+       @NotNull
     private Double preis;
+       @NotNull
     private String bildUrl;
 
     
