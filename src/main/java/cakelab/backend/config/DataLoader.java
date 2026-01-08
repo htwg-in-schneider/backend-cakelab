@@ -45,7 +45,7 @@ public class DataLoader {
         return args -> {
             loadInitialUsers(userRepository);
       
-loadInitialData(userRepository, cakeRepository, reviewRepository,orderRepo); 
+ 
             // only load Cakes and reviews if none exist
         if (cakeRepository.count() == 0) { // Check if the repository is empty
                 LOGGER.info("Database is empty. Loading initial data...");
