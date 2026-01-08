@@ -47,12 +47,12 @@ public class DataLoader {
       
 loadInitialData(userRepository, cakeRepository, reviewRepository,orderRepo); 
             // only load Cakes and reviews if none exist
-        /* if (cakeRepository.count() == 0) { // Check if the repository is empty
+        if (cakeRepository.count() == 0) { // Check if the repository is empty
                 LOGGER.info("Database is empty. Loading initial data...");
                 loadInitialData(userRepository, cakeRepository, reviewRepository, orderRepo);
             } else {
                 LOGGER.info("Database already contains data. Skipping data loading.");
-            }  */
+            }  
         }; 
     }
 
