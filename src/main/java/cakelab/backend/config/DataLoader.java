@@ -99,7 +99,7 @@ loadInitialData(userRepository, cakeRepository, reviewRepository,orderRepo);
         lotusKaramell.setBeschreibung("Ein zarter Biskuitboden kombiniert mit einer cremigen Lotus-Biscoff-Schicht.");
         lotusKaramell.setCategory(Category.KARAMELL);
         lotusKaramell.setPreis(39.90);
-        lotusKaramell.setBildUrl("/assets/images/Kuchen_Lotus-caramell.png");
+        lotusKaramell.setBildUrl("https://htwg-in-schneider.github.io/frontend-static-cakelab/Images/Kuchen_Lotus-caramell.png");
 
         Cake schokoGanache = new Cake();
         schokoGanache.setName("Schoko-Ganache");
