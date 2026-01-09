@@ -40,6 +40,7 @@ public class ProfileControllerTest {
     public void testGetProfileSuccess() throws Exception {
         // GIVEN: A user exists in the database
         User user = new User();
+        user.setName("anna"); 
         user.setEmail("test@example.com");
         user.setOauthId("auth0|testuser");
         userRepository.save(user);
