@@ -71,6 +71,7 @@ public class CakeControllerTest {
         workerUser.setEmail("admin@example.com");
         workerUser.setOauthId("auth0|admin");
         workerUser.setRole(Role.ADMIN);
+        workerUser.setName("Anna"); 
         userRepository.save(workerUser);
         cakeRepository.deleteAll();
     }
