@@ -39,7 +39,7 @@ public class Cake {
     private String bildUrl;
 
     @OneToMany(mappedBy = "cake", cascade = CascadeType.ALL, orphanRemoval = true)
-
+    @JsonIgnore
     private List<Review> reviews;
 
     // Getter und Setter
