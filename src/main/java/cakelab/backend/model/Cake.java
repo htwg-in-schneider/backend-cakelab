@@ -30,6 +30,7 @@ public class Cake {
     private String name;
     private String beschreibung;
     @NotNull
+    @Enumerated(EnumType.STRING)
     private Category category;
     @NotNull
     @Positive
