@@ -11,6 +11,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Cake {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,23 +29,23 @@ public class Cake {
     @NotNull
     private String name;
     private String beschreibung;
-      @NotNull
+    @NotNull
     private Category category;
-       @NotNull
+    @NotNull
+    @Positive
     private Double preis;
-       @NotNull
+    @NotNull
     private String bildUrl;
 
-    
     @OneToMany(mappedBy = "cake", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private List<Review> reviews;
-       
 
-    //Getter und Setter
+    private List<Review> reviews;
+
+    // Getter und Setter
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -52,6 +53,7 @@ public class Cake {
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -59,6 +61,7 @@ public class Cake {
     public String getBeschreibung() {
         return beschreibung;
     }
+
     public void setBeschreibung(String beschreibung) {
         this.beschreibung = beschreibung;
     }
@@ -66,6 +69,7 @@ public class Cake {
     public Category getCategory() {
         return category;
     }
+
     public void setCategory(Category category) {
         this.category = category;
     }
@@ -73,6 +77,7 @@ public class Cake {
     public Double getPreis() {
         return preis;
     }
+
     public void setPreis(Double preis) {
         this.preis = preis;
     }
@@ -80,11 +85,11 @@ public class Cake {
     public String getBildUrl() {
         return bildUrl;
     }
+
     public void setBildUrl(String bildUrl) {
         this.bildUrl = bildUrl;
     }
 
-    
     public List<Review> getReviews() {
         return reviews;
     }
@@ -105,8 +110,10 @@ public class Cake {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         Cake cake = (Cake) o;
         return id != null && id.equals(cake.id);
     }

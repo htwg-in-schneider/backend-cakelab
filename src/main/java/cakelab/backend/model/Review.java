@@ -1,5 +1,6 @@
 package cakelab.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.*;
@@ -12,15 +13,18 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @NotNull
+    @JsonIgnore
     private int stars; // 1 to 5
     @NotNull
     private String text;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cake_id")
+    @JsonIgnore
     private Cake cake;
 
     // Getters and setters

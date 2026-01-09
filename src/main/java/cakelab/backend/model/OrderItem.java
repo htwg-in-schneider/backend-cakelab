@@ -1,6 +1,10 @@
 package cakelab.backend.model;
 
 import jakarta.validation.constraints.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -15,7 +19,10 @@ public class OrderItem {
     @JoinColumn(name = "cake_id")
     private Cake cake;
 
-  
+    @ManyToOne
+    @JoinColumn(name = "order_id", nullable = false)
+   @JsonIgnore
+    private Order order;
 
     @NotBlank
     private String name;
@@ -79,5 +86,13 @@ public class OrderItem {
 
     public void setCustomization(Customization customization) {
         this.customization = customization;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }
