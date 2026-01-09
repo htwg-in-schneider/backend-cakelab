@@ -50,6 +50,7 @@ public class ProfileControllerTest {
                 .with(jwt().jwt(jwt -> jwt.claim("sub", "auth0|testuser"))))
                 // THEN: Status is OK and user details are returned
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("anna"))
                 .andExpect(jsonPath("$.email").value("test@example.com"))
                 .andExpect(jsonPath("$.oauthId").value("auth0|testuser"));
     }
