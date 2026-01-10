@@ -3,7 +3,7 @@ package cakelab.backend.model;
 import jakarta.validation.constraints.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 import jakarta.persistence.*;
 
@@ -20,7 +20,7 @@ public class OrderItem {
     private Cake cake;
 
     @ManyToOne
-    @JoinColumn(name = "order_id", nullable = false)
+    @JoinColumn(name = "order_id", nullable = true)
    @JsonIgnore
     private Order order;
 

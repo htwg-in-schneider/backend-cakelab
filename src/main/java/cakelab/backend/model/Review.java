@@ -19,11 +19,13 @@ public class Review {
     private String text;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
+    @NotNull
     @JsonIgnore
     private User user;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cake_id")
+    @NotNull
     @JsonIgnore
     private Cake cake;
 
