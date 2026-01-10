@@ -2,8 +2,10 @@ package cakelab.backend.controller;
 
 import cakelab.backend.model.Order;
 import cakelab.backend.model.Cake;
+import cakelab.backend.model.User;
 import cakelab.backend.repository.CakeRepository;
 import cakelab.backend.repository.OrderRepository;
+import cakelab.backend.repository.UserRepository;
 import jakarta.validation.Valid;
 
 import org.slf4j.Logger;
@@ -21,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -31,11 +35,12 @@ public class OrderController {
     private OrderRepository orderRepo;
     @Autowired
     private CakeRepository cakeRepo;
+     @Autowired
+    private UserRepository userRepo;
     private static final Logger LOG = LoggerFactory.getLogger(ReviewController.class);
 
     @PostMapping
-    public Order createOrder(@Valid @RequestBody Order order) {
-
+    public Order createOrder(@Valid @RequestBody Order order,  @AuthenticationPrincipal Jwt jwt) {
         if (order.getItems() == null || order.getItems().isEmpty()) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Order must contain at least one item");
@@ -43,11 +48,16 @@ public class OrderController {
 
         order.getItems().forEach(item -> {
             item.setCake(cakeRepo.findById(item.getCake().getId())
+            
                     .orElseThrow(() -> new ResponseStatusException(
                             HttpStatus.BAD_REQUEST, "Cake not found")));
             item.setOrder(order);
         });
-
+         String oauthId = jwt.getSubject(); 
+    User user = userRepo.findByOauthId(oauthId)
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found"));
+    
+    order.setUser(user);
         return orderRepo.save(order);
     }
 
@@ -61,7 +71,7 @@ public class OrderController {
         return orderRepo.findById(id).orElse(null);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("order/{id}")
     public Order updateOrder(@PathVariable Long id, @RequestBody Order updatedOrder) {
 
         return orderRepo.findById(id).map(order -> {
