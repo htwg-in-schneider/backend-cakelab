@@ -5,35 +5,48 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
 import java.util.List;
+
+import org.springframework.context.annotation.Profile;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Product {
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+public class Cake {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotNull
     private String name;
     private String beschreibung;
+    @NotNull
+    @Enumerated(EnumType.STRING)
     private Category category;
+    @NotNull
+    @Positive
     private Double preis;
+    @NotNull
     private String bildUrl;
 
-    
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "cake", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Review> reviews;
 
-    //Getter und Setter
+    // Getter und Setter
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -41,6 +54,7 @@ public class Product {
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -48,6 +62,7 @@ public class Product {
     public String getBeschreibung() {
         return beschreibung;
     }
+
     public void setBeschreibung(String beschreibung) {
         this.beschreibung = beschreibung;
     }
@@ -55,6 +70,7 @@ public class Product {
     public Category getCategory() {
         return category;
     }
+
     public void setCategory(Category category) {
         this.category = category;
     }
@@ -62,6 +78,7 @@ public class Product {
     public Double getPreis() {
         return preis;
     }
+
     public void setPreis(Double preis) {
         this.preis = preis;
     }
@@ -69,11 +86,11 @@ public class Product {
     public String getBildUrl() {
         return bildUrl;
     }
+
     public void setBildUrl(String bildUrl) {
         this.bildUrl = bildUrl;
     }
 
-    
     public List<Review> getReviews() {
         return reviews;
     }
@@ -84,21 +101,22 @@ public class Product {
 
     public void addReview(Review review) {
         this.reviews.add(review);
-        review.setProduct(this);
+        review.setCake(this);
     }
 
     public void removeReview(Review review) {
         this.reviews.remove(review);
-        review.setProduct(null);
+        review.setCake(null);
     }
-
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Product product = (Product) o;
-        return id != null && id.equals(product.id);
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Cake cake = (Cake) o;
+        return id != null && id.equals(cake.id);
     }
 
     @Override
@@ -108,7 +126,7 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product{" +
+        return "cake{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", beschreibung='" + beschreibung + '\'' +

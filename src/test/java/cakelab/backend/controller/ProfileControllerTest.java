@@ -40,6 +40,7 @@ public class ProfileControllerTest {
     public void testGetProfileSuccess() throws Exception {
         // GIVEN: A user exists in the database
         User user = new User();
+        user.setName("anna"); 
         user.setEmail("test@example.com");
         user.setOauthId("auth0|testuser");
         userRepository.save(user);
@@ -49,6 +50,7 @@ public class ProfileControllerTest {
                 .with(jwt().jwt(jwt -> jwt.claim("sub", "auth0|testuser"))))
                 // THEN: Status is OK and user details are returned
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("anna"))
                 .andExpect(jsonPath("$.email").value("test@example.com"))
                 .andExpect(jsonPath("$.oauthId").value("auth0|testuser"));
     }

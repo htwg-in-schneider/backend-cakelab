@@ -5,9 +5,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
 import cakelab.backend.model.Review;
-import cakelab.backend.model.Product;
+import cakelab.backend.dto.ReviewResponseDto;
+import cakelab.backend.model.Cake;
 import cakelab.backend.repository.ReviewRepository;
-import cakelab.backend.repository.ProductRepository;
+import cakelab.backend.repository.CakeRepository;
+import cakelab.backend.dto.ReviewResponseDto;
 
 import java.util.List;
 import org.slf4j.Logger;
@@ -23,7 +25,7 @@ public class ReviewController {
     private ReviewRepository reviewRepository;
 
     @Autowired
-    private ProductRepository productRepository;
+    private CakeRepository cakeRepository;
 
     @GetMapping
     public List<Review> getAllReviews() {
@@ -33,21 +35,26 @@ public class ReviewController {
         return reviews;
     }
 
-    @GetMapping("/product/{productId}")
-    public List<Review> getReviewsByProduct(@PathVariable Long productId) {
-        LOG.info("Fetching reviews for product id {}", productId);
-        List<Review> reviews = reviewRepository.findByProductId(productId);
-        LOG.info("Found {} reviews for product {}", reviews != null ? reviews.size() : 0, productId);
-        return reviews;
-    }
+@GetMapping("/cake/{cakeId}")
+public List<ReviewResponseDto> getReviewsByCake(@PathVariable Long cakeId) {
+    return reviewRepository.findByCakeId(cakeId)
+        .stream()
+        .map(r -> new ReviewResponseDto(
+            r.getId(),
+            r.getStars(),
+            r.getText(),
+            r.getUser() != null ? r.getUser().getName() : "Anonym"
+        ))
+        .toList();
+}
 
     @PostMapping
     public ResponseEntity<Review> createReview(@RequestBody Review review) {
-        Long productId = null;
-        if (review != null && review.getProduct() != null) {
-            productId = review.getProduct().getId();
+        Long cakeId = null;
+        if (review != null && review.getCake() != null) {
+            cakeId = review.getCake().getId();
         }
-        LOG.info("Attempting to create review for product id {}", productId);
+        LOG.info("Attempting to create review for cake id {}", cakeId);
 
         if (review == null) {
             LOG.warn("Review payload is null");
@@ -60,18 +67,18 @@ public class ReviewController {
             return ResponseEntity.badRequest().build();
         }
 
-        if (review.getProduct() == null || review.getProduct().getId() == null) {
-            LOG.warn("Review product is null or has no id");
+        if (review.getCake() == null || review.getCake().getId() == null) {
+            LOG.warn("Review cake is null or has no id");
             return ResponseEntity.badRequest().build();
         }
 
-        Product product = productRepository.findById(review.getProduct().getId()).orElse(null);
-        if (product == null) {
-            LOG.warn("Product not found for review: {}", review.getProduct().getId());
+        Cake cake = cakeRepository.findById(review.getCake().getId()).orElse(null);
+        if (cake == null) {
+            LOG.warn("cake not found for review: {}", review.getCake().getId());
             return ResponseEntity.badRequest().build();
         }
 
-        review.setProduct(product);
+        review.setCake(cake);
         Review saved = reviewRepository.save(review);
         LOG.info("Created review with id {}", saved.getId());
         return ResponseEntity.ok(saved);

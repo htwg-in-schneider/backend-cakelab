@@ -1,8 +1,10 @@
 package cakelab.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
@@ -10,14 +12,22 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
+    @NotNull
+    @JsonIgnore
     private int stars; // 1 to 5
+    @NotNull
     private String text;
-    private String userName;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    @NotNull
+    @JsonIgnore
+    private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "cake_id")
+    @NotNull
+    @JsonIgnore
+    private Cake cake;
 
     // Getters and setters
     public Long getId() {
@@ -44,19 +54,19 @@ public class Review {
         this.text = text;
     }
 
-    public String getUserName() {
-        return userName;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Product getProduct() {
-        return product;
+    public Cake getCake() {
+        return cake;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setCake(Cake cake) {
+        this.cake = cake;
     }
 }
