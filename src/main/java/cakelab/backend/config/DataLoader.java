@@ -25,7 +25,8 @@ public class DataLoader {
     private static final Logger LOGGER = LoggerFactory.getLogger(DataLoader.class);
 
     @Bean
-    public CommandLineRunner loadData(UserRepository userRepository,ProductRepository productRepository, ReviewRepository reviewRepository) {
+    public CommandLineRunner loadData(UserRepository userRepository, ProductRepository productRepository,
+            ReviewRepository reviewRepository) {
         return args -> {
             loadInitialUsers(userRepository);
 
@@ -38,25 +39,25 @@ public class DataLoader {
             }
         };
     }
- private void loadInitialUsers(UserRepository userRepository) {
+
+    private void loadInitialUsers(UserRepository userRepository) {
         upsertUser(userRepository, "maxmuster+gast@gmail.com", "auth0|693b0fec3ead746953ac29a1", Role.GAST);
-        upsertUser(userRepository,  "maxmuster+kunde@gmail.com", "auth0|693b0fd10aca7b7f6a0e9bb3", Role.KUNDE);
-        upsertUser(userRepository,"maxmuster+admin@gmail.com", "auth0|693b0fa43ead746953ac297a",Role.ADMIN);
+        upsertUser(userRepository, "maxmuster+kunde@gmail.com", "auth0|693b0fd10aca7b7f6a0e9bb3", Role.KUNDE);
+        upsertUser(userRepository, "maxmuster+admin@gmail.com", "auth0|693b0fa43ead746953ac297a", Role.ADMIN);
     }
 
-
-    private void upsertUser(UserRepository userRepository,  String email, String oauthId, Role role) {
+    private void upsertUser(UserRepository userRepository, String email, String oauthId, Role role) {
         Optional<User> existing = userRepository.findByEmail(email);
         if (existing.isPresent()) {
             User e = existing.get();
-            
+
             e.setOauthId(oauthId);
             e.setRole(role);
             userRepository.save(e);
             LOGGER.info("Updated existing {} user with email={}", role, email);
         } else {
             User u = new User();
-           
+
             u.setEmail(email);
             u.setOauthId(oauthId);
             u.setRole(role);
@@ -71,68 +72,64 @@ public class DataLoader {
         lotusKaramell.setBeschreibung("Ein zarter Biskuitboden kombiniert mit einer cremigen Lotus-Biscoff-Schicht.");
         lotusKaramell.setCategory(Category.KARAMELL);
         lotusKaramell.setPreis(39.90);
-        lotusKaramell.setBildUrl("/assets/images/Kuchen_Lotus-caramell.png");
-
+        lotusKaramell.setBildUrl("Kuchen_Lotus-caramell.png");
         Product schokoGanache = new Product();
         schokoGanache.setName("Schoko-Ganache");
-        schokoGanache.setBeschreibung("Intensiver Schokoladenkuchen mit zarter Zartbitter-Ganache und einem Hauch Espresso");
+        schokoGanache
+                .setBeschreibung("Intensiver Schokoladenkuchen mit zarter Zartbitter-Ganache und einem Hauch Espresso");
         schokoGanache.setCategory(Category.SCHOKOLADIG);
         schokoGanache.setPreis(39.90);
-        schokoGanache.setBildUrl("/assets/images/Kuchen_Schokolade.png");
+        schokoGanache.setBildUrl("Kuchen_Schokolade.png");
 
         Product pistazienHimbeer = new Product();
         pistazienHimbeer.setName("Pistazien-Himbeer");
-        pistazienHimbeer.setBeschreibung("Saftiger Pistazienboden kombiniert mit frischer Himbeercreme und leichter Mascarpone.");
+        pistazienHimbeer.setBeschreibung(
+                "Saftiger Pistazienboden kombiniert mit frischer Himbeercreme und leichter Mascarpone.");
         pistazienHimbeer.setCategory(Category.FRUCHTIG);
         pistazienHimbeer.setPreis(39.90);
-        pistazienHimbeer.setBildUrl("/assets/images/Kuchen_pistazien-Himbeer.png");
+        pistazienHimbeer.setBildUrl("Kuchen_pistazien-Himbeer.png");
 
         Product beerenSahne = new Product();
         beerenSahne.setName("Beeren-Sahne");
         beerenSahne.setBeschreibung("Locker gebackener Vanilleboden mit einer Mischung aus Waldbeeren und Sahnecreme");
         beerenSahne.setCategory(Category.FRUCHTIG);
         beerenSahne.setPreis(39.90);
-        beerenSahne.setBildUrl("/assets/images/Kuchen_beeren-Sahne.png");
-        Product karamellCrunch= new Product(); 
+        beerenSahne.setBildUrl("Kuchen_beeren-Sahne.png");
+        Product karamellCrunch = new Product();
         karamellCrunch.setCategory(Category.KARAMELL);
-         
-        karamellCrunch.setName("Karamell-Crunch"); 
-        karamellCrunch.setBeschreibung( "Saftiger Karamellkuchen mit knusprigem Topping"); 
-        karamellCrunch.setPreis( 45.00); 
+        karamellCrunch.setName("Karamell-Crunch");
+        karamellCrunch.setBeschreibung("Saftiger Karamellkuchen mit knusprigem Topping");
+        karamellCrunch.setPreis(45.00);
         karamellCrunch.setCategory(Category.KARAMELL);
-        karamellCrunch.setBildUrl("/src/assets/images/Kuchen_karamell-crunch.png"); 
-        Product zitronMohn= new Product(); 
+        karamellCrunch.setBildUrl("Kuchen_karamell-crunch.png");
+        Product zitronMohn = new Product();
         zitronMohn.setName("Zitrone-Mohn");
-        zitronMohn.setBeschreibung("Frischer Zitronenkuchen mit feinem Mohnaroma"); 
-        zitronMohn.setBildUrl("/src/assets/images/Kuchen_zitrone-mohn.png");
+        zitronMohn.setBeschreibung("Frischer Zitronenkuchen mit feinem Mohnaroma");
+        zitronMohn.setBildUrl("Kuchen_zitrone-mohn.png");
         zitronMohn.setCategory(Category.SONSTIGES);
-zitronMohn.setPreis(39.90);
+        zitronMohn.setPreis(39.90);
 
-
-Product mangoCheesecake= new Product();
+        Product mangoCheesecake = new Product();
         mangoCheesecake.setName("Mango-Cheesecake");
-        mangoCheesecake.setBeschreibung("Cremiger Frischkäsekuchen mit frischer Mangosauce"); 
+        mangoCheesecake.setBeschreibung("Cremiger Frischkäsekuchen mit frischer Mangosauce");
         mangoCheesecake.setPreis(34.90);
-        mangoCheesecake.setBildUrl("/src/assets/images/Kuchen_mango-cheesecake.png"); 
-   mangoCheesecake.setCategory(Category.FRUCHTIG);
-        Product schokoErdnuss=new Product();
+        mangoCheesecake.setBildUrl("Kuchen_mango-cheesecake.png");
+        mangoCheesecake.setCategory(Category.FRUCHTIG);
+        Product schokoErdnuss = new Product();
         schokoErdnuss.setName("Schoko-Erdnussbutter");
         schokoErdnuss.setBeschreibung("Intensiver Schokokuchen mit salziger Erdnussbuttercreme");
         schokoErdnuss.setPreis(43.90);
-
-    schokoErdnuss.setCategory(Category.SCHOKOLADIG);
-    schokoErdnuss.setBildUrl("/src/assets/images/Kuchen_schoko-erdnussbutter.png");
-    Product honigMandel= new Product(); 
-    honigMandel.setName("Honig-Mandel");
-    honigMandel.setCategory(Category.SONSTIGES);
+        schokoErdnuss.setCategory(Category.SCHOKOLADIG);
+        schokoErdnuss.setBildUrl("Kuchen_schoko-erdnussbutter.png");
+        Product honigMandel = new Product();
+        honigMandel.setName("Honig-Mandel");
+        honigMandel.setCategory(Category.SONSTIGES);
         honigMandel.setBeschreibung("Feiner Honigteig mit karamellisierten Mandeln");
         honigMandel.setPreis(34.90);
-        honigMandel.setBildUrl("/src/assets/images/Kuchen_honig-mandel.png");
+        honigMandel.setBildUrl("Kuchen_honig-mandel.png");
 
-
-
-        productRepository.saveAll(Arrays.asList(lotusKaramell, schokoGanache, pistazienHimbeer, beerenSahne, honigMandel,karamellCrunch, zitronMohn,mangoCheesecake,schokoErdnuss));
-
+        productRepository.saveAll(Arrays.asList(lotusKaramell, schokoGanache, pistazienHimbeer, beerenSahne,
+                honigMandel, karamellCrunch, zitronMohn, mangoCheesecake, schokoErdnuss));
 
         // Add reviews
         Review r1a = new Review();
@@ -140,7 +137,7 @@ Product mangoCheesecake= new Product();
         r1a.setText("wunderschöne Torte");
         r1a.setUserName("Anna");
         r1a.setProduct(lotusKaramell);
-        
+
         Review r1b = new Review();
         r1b.setStars(4);
         r1b.setText("Bin ziemlich zufrieden.");
