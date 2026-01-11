@@ -9,7 +9,6 @@ import cakelab.backend.dto.ReviewResponseDto;
 import cakelab.backend.model.Cake;
 import cakelab.backend.repository.ReviewRepository;
 import cakelab.backend.repository.CakeRepository;
-import cakelab.backend.dto.ReviewResponseDto;
 
 import java.util.List;
 import org.slf4j.Logger;
