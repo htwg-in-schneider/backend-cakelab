@@ -1,10 +1,7 @@
 package cakelab.backend.model;
 
 import jakarta.validation.constraints.*;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-
 import jakarta.persistence.*;
 
 @Entity
@@ -37,8 +34,6 @@ public class OrderItem {
 
     @Embedded
     private Customization customization;
-
-    // ---- GETTER & SETTER ----
 
     public Long getId() {
         return id;

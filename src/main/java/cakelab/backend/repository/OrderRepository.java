@@ -1,8 +1,7 @@
 package cakelab.backend.repository;
+
 import cakelab.backend.model.Order;
-
 import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {

@@ -1,10 +1,8 @@
 package cakelab.backend.controller;
 
 import cakelab.backend.model.User;
-import cakelab.backend.model.Cake;
 import cakelab.backend.model.Role;
 import cakelab.backend.repository.UserRepository;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;

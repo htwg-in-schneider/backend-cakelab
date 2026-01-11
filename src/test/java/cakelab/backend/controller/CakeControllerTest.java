@@ -30,19 +30,7 @@ import org.springframework.web.context.WebApplicationContext;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import java.util.Optional;
-
-/**
- * Integrationstests für den cakeController.
- * Testet sowohl die REST-Endpunkte als auch die Speicherung in der Datenbank.
- */
 @SpringBootTest
 @ActiveProfiles("test")
 public class CakeControllerTest {
@@ -56,9 +44,6 @@ public class CakeControllerTest {
     private UserRepository userRepository;
 
 
-    /**
-     * Initialisiert MockMvc und leert die Datenbank vor jedem Test.
-     */
     @BeforeEach
     public void setUp(WebApplicationContext webApplicationContext) {
           
@@ -76,9 +61,6 @@ public class CakeControllerTest {
         cakeRepository.deleteAll();
     }
 
-    /**
-     * Testet das Abrufen aller Produkte über REST-Endpunkt.
-     */
     @Test
     public void testGetcakes() throws Exception {
         // GIVEN: Ein Produkt in der Datenbank

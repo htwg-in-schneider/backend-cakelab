@@ -18,9 +18,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-                // 1. Benutzt das unten definierte Bean 'corsConfigurationSource'
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                // 2. CSRF deaktivieren (notwendig für PATCH/POST mit JWT)
                 .csrf(csrf -> csrf.disable()) 
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/api/profile").authenticated()

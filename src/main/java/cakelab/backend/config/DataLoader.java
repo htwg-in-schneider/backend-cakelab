@@ -17,16 +17,8 @@ import cakelab.backend.repository.OrderRepository;
 import cakelab.backend.repository.ReviewRepository;
 import cakelab.backend.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.validation.constraints.Positive;
-
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.List;
 
 import org.slf4j.Logger;
 import java.util.Optional;
@@ -44,10 +36,7 @@ public class DataLoader {
             ReviewRepository reviewRepository, OrderRepository orderRepo) {
         return args -> {
             loadInitialUsers(userRepository);
-      
- 
-            // only load Cakes and reviews if none exist
-        if (cakeRepository.count() == 0) { // Check if the repository is empty
+        if (cakeRepository.count() == 0) { 
                 LOGGER.info("Database is empty. Loading initial data...");
                 loadInitialData(userRepository, cakeRepository, reviewRepository, orderRepo);
             } else {

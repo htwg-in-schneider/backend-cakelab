@@ -2,14 +2,12 @@ package cakelab.backend.model;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "app_user") // <-- Rename table to avoid reserved keyword
+@Table(name = "app_user") 
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,7 +19,7 @@ public class User {
     @NotNull
     private String name;
 
-    @Enumerated(EnumType.STRING) // <-- Use JPA enum mapping
+    @Enumerated(EnumType.STRING) 
     private Role role;
 
     @OneToMany(mappedBy = "user")
@@ -31,7 +29,6 @@ public class User {
     @JsonIgnore
     private List<Review> reviews;
 
-    // Getters and setters
     public Long getId() {
         return id;
     }

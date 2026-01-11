@@ -2,7 +2,6 @@ package cakelab.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -29,7 +28,6 @@ public class Review {
     @JsonIgnore
     private Cake cake;
 
-    // Getters and setters
     public Long getId() {
         return id;
     }
