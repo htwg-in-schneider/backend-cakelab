@@ -28,7 +28,6 @@ import org.springframework.security.oauth2.jwt.Jwt;
 
 @RestController
 @RequestMapping("/api/orders")
-@CrossOrigin(origins = "*")
 public class OrderController {
 
     @Autowired
@@ -94,5 +93,14 @@ public class OrderController {
             order.setStatus("storniert");
             return orderRepo.save(order);
         }).orElse(null);
+    }
+  
+    @PatchMapping("/{id}")
+    public Order updateStatus(@PathVariable Long id, @RequestBody java.util.Map<String, String> body) {
+        String newStatus = body.get("status");
+        return orderRepo.findById(id).map(order -> {
+            order.setStatus(newStatus);
+            return orderRepo.save(order);
+        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Bestellung nicht gefunden"));
     }
 }
