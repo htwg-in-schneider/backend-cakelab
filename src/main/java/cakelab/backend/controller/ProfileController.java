@@ -52,8 +52,8 @@ public class ProfileController {
             return ResponseEntity.notFound().build();
         }
         User user = opt.get();
-        user.setId(id);
         user.setEmail(userDetails.getEmail());
+        user.setName(userDetails.getName());
         User updateduser = userRepository.save(user);
         LOGGER.info("Updated user with id " + updateduser.getOauthId());
         return ResponseEntity.ok(updateduser);

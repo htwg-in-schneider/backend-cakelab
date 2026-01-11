@@ -65,6 +65,7 @@ public class UserController {
         }
         User user = opt.get();
         user.setId(id);
+        user.setName(userDetails.getName());
         user.setOauthId(userDetails.getOauthId());
         user.setEmail(userDetails.getEmail());
         user.setRole(userDetails.getRole());

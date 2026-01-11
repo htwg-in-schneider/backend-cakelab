@@ -1,6 +1,7 @@
 package cakelab.backend.controller;
 
 import cakelab.backend.model.Order;
+import cakelab.backend.model.OrderItem;
 import cakelab.backend.model.Cake;
 import cakelab.backend.model.User;
 import cakelab.backend.repository.CakeRepository;
@@ -19,8 +20,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -34,29 +37,33 @@ public class OrderController {
     private OrderRepository orderRepo;
     @Autowired
     private CakeRepository cakeRepo;
-     @Autowired
+    @Autowired
     private UserRepository userRepo;
-    private static final Logger LOG = LoggerFactory.getLogger(ReviewController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(OrderController.class);
+   
+
 
     @PostMapping
-    public Order createOrder(@Valid @RequestBody Order order,  @AuthenticationPrincipal Jwt jwt) {
+    public Order createOrder(@Valid @RequestBody Order order, @AuthenticationPrincipal Jwt jwt) {
         if (order.getItems() == null || order.getItems().isEmpty()) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Order must contain at least one item");
         }
 
         order.getItems().forEach(item -> {
+            if(item.getCake().getId()==null){LOG.debug("cake id can't be null"); 
+            }
             item.setCake(cakeRepo.findById(item.getCake().getId())
-            
                     .orElseThrow(() -> new ResponseStatusException(
                             HttpStatus.BAD_REQUEST, "Cake not found")));
             item.setOrder(order);
         });
-         String oauthId = jwt.getSubject(); 
-    User user = userRepo.findByOauthId(oauthId)
-        .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found"));
-    
-    order.setUser(user);
+        String oauthId = jwt.getSubject();
+
+        User user = userRepo.findByOauthId(oauthId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found"));
+
+        order.setUser(user);
         return orderRepo.save(order);
     }
 
@@ -66,33 +73,55 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    public Order getOrderById(@PathVariable Long id) {
-        return orderRepo.findById(id).orElse(null);
+    public Optional<Order> getOrderById(@PathVariable Long id) {
+        if (id == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "order id can't be null");
+
+        }
+        return orderRepo.findById(id);
     }
 
     @PutMapping("order/{id}")
     public Order updateOrder(@PathVariable Long id, @RequestBody Order updatedOrder) {
+        if (id == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "order id can't be null");
 
+        }
         return orderRepo.findById(id).map(order -> {
             order.setStatus(updatedOrder.getStatus());
             return orderRepo.save(order);
-        }).orElse(null);
+        }).orElseThrow(() -> new ResponseStatusException(
+    HttpStatus.NOT_FOUND, "Order not found"));
     }
 
     @PatchMapping("/{id}/finish")
     public Order finishOrder(@PathVariable Long id) {
+        if (id == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "order id can't be null");
+
+        }
         return orderRepo.findById(id).map(order -> {
             order.setStatus("fertig");
             return orderRepo.save(order);
-        }).orElse(null);
+        }).orElseThrow(() -> new ResponseStatusException(
+    HttpStatus.NOT_FOUND, "Order not found"));
     }
 
     @PatchMapping("/{id}/cancel")
     public Order cancelOrder(@PathVariable Long id) {
+        if (id == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "order id can't be null");
+
+        }
         return orderRepo.findById(id).map(order -> {
             order.setStatus("storniert");
             return orderRepo.save(order);
-        }).orElse(null);
+        }).orElseThrow(() -> new ResponseStatusException(
+    HttpStatus.NOT_FOUND, "Order not found"));
     }
   
     @PatchMapping("/{id}")
