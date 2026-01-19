@@ -2,13 +2,13 @@ package cakelab.backend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.http.ResponseEntity;
+
 
 import cakelab.backend.model.Review;
 import cakelab.backend.dto.ReviewResponseDto;
 import cakelab.backend.model.Cake;
 import cakelab.backend.repository.ReviewRepository;
-import cakelab.backend.repository.CakeRepository;
+
 
 import java.util.List;
 import org.slf4j.Logger;
@@ -23,8 +23,7 @@ public class ReviewController {
     @Autowired
     private ReviewRepository reviewRepository;
 
-    @Autowired
-    private CakeRepository cakeRepository;
+    
 
     @GetMapping
     public List<Review> getAllReviews() {
